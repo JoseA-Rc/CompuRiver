@@ -20,6 +20,8 @@ const CartProvider = ({children}) => {
     setTotal(total)
   });
 
+
+
   // Actualizar item amount
   useEffect(() => {
     if (cart) {
@@ -31,6 +33,8 @@ const CartProvider = ({children}) => {
     }
   }, [cart])
 
+
+  
   // Agregar al carrito
   const addToCart = (product,id) => {
     const newItem = {...product, amount: 1}
@@ -91,7 +95,6 @@ const CartProvider = ({children}) => {
     if(cartItem.amount < 2){
       removeCart(id);
     }
-    
   }
 
   useEffect(() => {

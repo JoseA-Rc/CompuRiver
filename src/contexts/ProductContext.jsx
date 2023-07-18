@@ -6,7 +6,6 @@ export const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
     // Estado de productos
     const [products, setProducts] = useState([]);
-    // Fetch de productos
     useEffect(() => {
         const fetchProducts = async () => {
           const response = await fetch('https://compu-river.up.railway.app/api/producto');
@@ -16,7 +15,6 @@ const ProductProvider = ({ children }) => {
         fetchProducts();
     }, [])
     return <ProductContext.Provider value={{products}}>{children}</ProductContext.Provider>
-  
 }
 
 export default ProductProvider

@@ -6,7 +6,10 @@ import {BsPlus, BsEyeFill} from 'react-icons/bs'
 // Importamos CartContext
 import { CartContext } from '../contexts/CartContext'
 
+
+
 const Product = ({product}) => {
+  
   const {addToCart} = useContext(CartContext)
   // Destructure Product
   //const {id, image, category, title, price} = product;

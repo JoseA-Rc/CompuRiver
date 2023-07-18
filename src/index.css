@@ -2,3 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.nav, .topnav, .hero, .footer {
+  background-color: black;
+}
+
+.login {
+  background-image: url('../src/img/login.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
