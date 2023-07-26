@@ -1,38 +1,51 @@
 import { FaHive, FaBars } from "react-icons/fa";
-import { CiSearch } from "react-icons/ci";
-import { BsPerson, BsCart4} from "react-icons/bs";
-import { useContext, useState } from "react";
+import { CiSearch, CiLogout } from "react-icons/ci";
+import { BsPerson, BsCart4 } from "react-icons/bs";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SidebarContext } from '../contexts/SidebarContext'
 import { CartContext } from '../contexts/CartContext'
 import { ProductContext } from "../contexts/ProductContext";
 
-
-export const Nav = ({product}) => {
+export const Nav = ({ product }) => {
   const [open, setOpen] = useState(false);
-  const {isOpen,setIsOpen} = useContext(SidebarContext);
-  const {itemAmount} = useContext(CartContext);
-  const {products} = useContext(ProductContext);
+  const { isOpen, setIsOpen } = useContext(SidebarContext);
+  const { itemAmount } = useContext(CartContext);
+  const { products } = useContext(ProductContext);
   const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [usuario, setUsuario] = useState(null)
+  const [selectedProductId, setSelectedProductId] = useState(null);
+
+  let salir = <CiLogout/>;
+
+  let username = "";
+
+  useEffect(() => {
+    const storedUsersString = localStorage.getItem('user');
+    const storedUsersArray = JSON.parse(storedUsersString);
+
+    if (storedUsersArray && storedUsersArray.length > 0) {
+      setUsuario(storedUsersArray[0].username);
+    }
+  }, []);
 
   const handleSearchChange = (e) => {
-    setSearchValue(e.target.value);
+    const value = e.target.value;
+    setSearchValue(value);
+
+    // Filtrar la lista de productos por el nombre de búsqueda en tiempo real
+    const filteredProducts = products.filter((product) =>
+      product.nombre.toLowerCase().includes(value.toLowerCase())
+    );
+    setSearchResults(filteredProducts);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Filtrar la lista de productos por el nombre de búsqueda
-    const searchResults = products.filter((product) =>
-      product.nombre.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  
-    // Hacer algo con los resultados de búsqueda
-    console.log("Resultados de búsqueda:", searchResults);
-    
-    // Restablecer el valor de búsqueda
-    setSearchValue("");
+    // Realizar alguna acción cuando se envíe el formulario (opcional)
   };
-  
+
 
   return (
     <div className="nav">
@@ -99,28 +112,46 @@ export const Nav = ({product}) => {
             <h1 className="text-indigo-500 font-medium text-3xl">CompuRiver</h1>
           </div>
         </Link>
-        <div className="md:flex w-full items-center justify-center hidden">
-          <div className="text-indigo-500 text-3xl lg:mx-2">
-            <CiSearch />
+        <div></div>
+        <div className="grid grid-cols-1 ml-60">
+          <div className="flex justify-center">
+            <div className="text-indigo-500 text-3xl lg:mx-2">
+              <CiSearch />
+            </div>
+            <form onSubmit={handleSearchSubmit}>
+              <input
+                type="text"
+                placeholder="Buscar componentes"
+                className="bg-black text-white lg:w-72 lg:mx-2 md:text-center focus:outline-none lg:text-start"
+                value={searchValue}
+                onChange={handleSearchChange}
+              />
+            </form>
           </div>
-          <form onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            placeholder="Buscar componentes"
-            className="bg-black text-white lg:w-72 lg:mx-2 md:text-center focus:outline-none lg:text-start"
-            value={searchValue}
-            onChange={handleSearchChange}
-          />
-        </form>
+          {/* Resultados de búsqueda */}
+          <Link to={selectedProductId ? `/product/${selectedProductId}` : "#"}>
+            {searchValue && searchResults.length > 0 && (
+              <div className="absolute overflow-scroll overflow-x-auto h-[500px] bg-white mt-2 p-2 rounded shadow-md">
+                <h2 className="text-xs font-semibold">Resultados de búsqueda:</h2>
+                <ul className="">
+                  {searchResults.map((product) => (
+                    <li className="border-b-2 py-1 flex items-center gap-4" key={product.idProducto} onClick={() => setSelectedProductId(product.idProducto)}>
+                      <img src={product.image} alt="" className="w-[50px]" /> {product.nombre}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </Link>
         </div>
         <div className="items-center justify-end flex  flex-grow ">
           <Link to={'/login'}>
             <div className=" items-center mx-2 ml-0 hidden md:flex">
-              <div className="text-indigo-500 text-3xl">
-                <BsPerson />
+              <div className="text-indigo-500 text-3xl" onClick={() => localStorage.removeItem('user')}>
+              {usuario === null ? <BsPerson /> : (salir ? <CiLogout/> : <BsPerson />)}
               </div>
               <div className="mx-2 border-r-[1px] border-indigo-300 md:block hidden">
-                <h1 className="mr-4 text-white">Login</h1>
+                <h1 className="mr-4 text-white">{`${usuario == null ? 'Login' : usuario}`}</h1>
               </div>
             </div>
           </Link>

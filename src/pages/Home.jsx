@@ -23,7 +23,7 @@ const Home = () => {
       (item.nombreCategoria === "Laptop" || item.nombreCategoria === "Pc" || item.nombreCategoria === "Periferico")
     );
   });
-  
+
 
   return (
     <div>

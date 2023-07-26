@@ -9,6 +9,8 @@ export const Login = () => {
   const [clienteData, SetclienteData] = useState(null);
   const [redirectToHome, setRedirectToHome] = useState(false);
   const navigate = useNavigate();
+  const [usuario, setUsuario] = useState("");
+  const [contraseña, setContraseña] = useState("");
 
 
   useEffect(() => {
@@ -27,21 +29,18 @@ export const Login = () => {
         .then((data) => SetclienteData(data));
   }, [cliente]);
 
-  //quiero recuperar los valores de los inputs y compararlos con los de la base de datos
-
   function handleInput(e) {
     e.preventDefault();
-    const userInput = document.querySelector("#user").value;
-    const passInput = document.querySelector("#pass").value;
+    if(usuario != undefined && contraseña != undefined){
+      const searchUser = user.filter((u) => u.username === usuario && u.password === contraseña)
 
-    const userFound = user.find((u) => u.username === userInput);
-    const passFound = user.find((p) => p.password === passInput);
-    if (userFound && passFound) {
-      console.log("usuario encontrado con id: ", userFound.idCliente);
-      Setcliente(userFound.idCliente);
-      setRedirectToHome(true); // Establece el estado para redireccionar a true
-    } else {
-      console.log("usuario no encontrado");
+      if(searchUser.length > 0){
+        localStorage.setItem('user', JSON.stringify(searchUser))
+        console.log(searchUser)
+        navigate("/")
+      } else{
+        alert("no existe el usuario")
+      }
     }
   }
 
@@ -63,11 +62,11 @@ export const Login = () => {
             <form>
               <div className="mb-4">
                 <label className="block mb-2">Username</label>
-                <input type="username" id="user" className="bg-transparent w-full px-3 py-2 border rounded"/>
+                <input type="username" id="user" className="bg-transparent w-full px-3 py-2 border rounded" onChange={(e) => setUsuario(e.target.value) }/>
               </div>
               <div className="mb-6">
                 <label className="block mb-2">Contraseña</label>
-                <input type="password" id="pass" className="bg-transparent w-full px-3 py-2 border rounded"/>
+                <input type="password" id="pass" className="bg-transparent w-full px-3 py-2 border rounded" onChange={(e) => setContraseña(e.target.value) }/>
               </div>
               <button onClick={handleInput} type="submit" className="w-full bg-transparent hover:bg-black text-white font-bold py-2 border rounded-[30px]">
                 Iniciar sesión
@@ -81,4 +80,4 @@ export const Login = () => {
         </div>
     </div>
   );
-};
+}

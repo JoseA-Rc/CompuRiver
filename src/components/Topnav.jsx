@@ -13,12 +13,6 @@ export const TopNav = () => {
             </div>
             <h1 className="lg:mx-2 md:mx-[4px]">Delivery al <b className="font-medium text-gray-500">999-999-999</b></h1>
           </div>
-          <div className="flex justify-center items-center border-r-[1px] border-indigo-300 lg:px-4 md:px-2">
-            <div className="text-indigo-500 text-lg">
-              <RiTruckLine/>
-            </div>
-            <h1 className="lg:mx-2 md:mx-[4px]">Rastrea tu pedido</h1>
-          </div>
           <div className="flex justify-center items-center lg:px-4 pr-0 md:px-[6px]">
             <div className="text-indigo-500 text-lg">
               <RiStarSmileLine/>
