@@ -9,10 +9,13 @@ import Sidebar from './components/Sidebar'
 import Register from './components/Register'
 import { Login } from './components/Login'
 import MercadoPago from './components/MercadoPago'
+import Popup from './components/Popup'
+import Boleta from './components/Boleta'
 
 function App() {
   return (
     <>
+    <Popup/>
       <Router>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -20,9 +23,10 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/product/:id' element={<ProductDetails />} />
           <Route path='/pagar' element={<MercadoPago/>} />
+          <Route path='/boleta' element={<Boleta/>} />
         </Routes>
         <Sidebar/>
-      </Router>
+    </Router>
     </>
   )
 }
