@@ -58,7 +58,7 @@ const Boleta = () => {
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div id="boleta-container" className="w-[600px] h-full">
         <h1 className='flex justify-center text-2xl font-bold mb-5'>Boleta</h1>
-        <div className='flex justify-between items-center w-[500px]'>
+        <div className='flex justify-between items-center w-[600px]'>
           <h1 className='uppercase font-bold'>N° Boleta: {numeroBoleta}</h1>
           <h1 className='uppercase font-bold py-2'>Cliente : {nombre} {apellido}</h1>
         </div>
@@ -68,6 +68,8 @@ const Boleta = () => {
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase">Producto</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase">Precio</th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase">Cantidad</th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase">SubTotal</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase">Imagen</th>
             </tr>
           </thead>
@@ -78,7 +80,13 @@ const Boleta = () => {
                   <div className="text-sm">{item.nombre}</div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-sm">${item.precio}</div>
+                  <div className="text-sm">S/.{item.precio}</div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-sm text-center">{item.amount}</div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-sm">S/.{item.precio * item.amount}</div>
                 </td>
                 <td className="px-6 py-4">
                   <img src={item.image} alt={item.nombre} className="h-16 w-16 object-contain" />
@@ -87,7 +95,7 @@ const Boleta = () => {
             ))}
           </tbody>
         </table>
-        <p className="text-xl font-bold mt-4">Total: ${cartData.reduce((acc, item) => acc + parseFloat(item.precio), 0)}</p>
+        <p className="text-xl font-bold mt-4">Total: S/.{cartData.reduce((acc, item) => acc + parseFloat(item.precio * item.amount), 0)}</p>
       </div>
       <div className='mt-4 w-[600px]'>
         <button onClick={handleDownloadPDF} className="w-[140px] h-[40px] bg-red-600 hover:bg-black text-white text-center rounded">
@@ -99,6 +107,11 @@ const Boleta = () => {
 };
 
 export default Boleta;
+
+
+
+
+
 
 
 

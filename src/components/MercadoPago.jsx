@@ -7,11 +7,8 @@ import { Nav } from './Nav';
 import { TopNav } from './Topnav';
 import CkItem from './CkItem';
 
-
-
 const MercadoPago = () => {
   const {total,cart} = useContext(CartContext);
-
   const [preferenceId, setPreferenceId] = useState(null);
   
   initMercadoPago('TEST-440cf8e9-0243-46cd-85f0-85cb3c872001');
